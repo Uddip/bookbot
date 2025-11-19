@@ -1,34 +1,38 @@
-from stats import get_num_words
+from stats import (
+    get_num_words,
+    get_characters,
+    dict_to_sorted_list
+)
+import sys
 
 def main():
-    path_to_file = "books/frankenstein.txt"
-    with open(path_to_file) as f:
-        file_contents = f.read()
-        print(f"Found {get_num_words(file_contents)} total words")
-        
-        list_of_dict = dict_to_sorted_list(get_characters(file_contents))
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    path_to_file = sys.argv[1]
+    text = get_book_path(path_to_file)
+    num_words = get_num_words(text)
+    chars_dict = get_characters(text)
+    chars_sorted_list = dict_to_sorted_list(chars_dict)
+    print_report(path_to_file, num_words, chars_sorted_list)
 
-        for item in list_of_dict:
-            print(f"The '{item['char']}' character was foumd {item['num']} times")
-
-        print("--- End report ---")
-    return
-
-def sort_on(item):
-    return item["num"]
-
-def get_characters(contents):
-    char_dict = {}
-    lower_case_string = contents.lower()
-    for char in lower_case_string:
-        if (char.isalpha()):
-            char_dict[char] = char_dict.get(char, 0) + 1
-    return char_dict
-
-def dict_to_sorted_list(dict):
-    sorted_list = []
-    sorted_list = [{"char": k, "num": v} for k, v in dict.items()]
-    sorted_list.sort(reverse=True, key=sort_on)
-    return sorted_list 
+def get_book_path(path):
+    with open(path) as f:
+        return f.read()
+    
+def print_report(book_path, num_words, chars_sorted_list):
+    # print(file_contents)
+    # print(f"Number of words: {get_words(file_contents)}")
+    # print(f"Number of words: {get_characters(file_contents)}")
+    print(f"============ BOOKBOT ============")
+    print(f"Analyzing book found at {book_path}...")
+    print(f"----------- Word Count ----------")
+    print(f"Found {num_words} total words")
+    print(f"--------- Character Count -------")
+    for item in chars_sorted_list:
+        if not item['char'].isalpha():
+            continue
+        print(f"{item['char']}: {item['num']}")
+    print(f"============= END ===============")
 
 main()
