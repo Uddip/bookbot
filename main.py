@@ -4,10 +4,6 @@ def main():
     path_to_file = "books/frankenstein.txt"
     with open(path_to_file) as f:
         file_contents = f.read()
-        # print(file_contents)
-        # print(f"Number of words: {get_words(file_contents)}")
-        # print(f"Number of words: {get_characters(file_contents)}")
-        print(f"--- Begin report of books/frankenstein.txt ---")
         print(f"Found {get_num_words(file_contents)} total words")
         
         list_of_dict = dict_to_sorted_list(get_characters(file_contents))
