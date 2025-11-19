@@ -1,3 +1,5 @@
+from stats import get_num_words
+
 def main():
     path_to_file = "books/frankenstein.txt"
     with open(path_to_file) as f:
@@ -6,7 +8,7 @@ def main():
         # print(f"Number of words: {get_words(file_contents)}")
         # print(f"Number of words: {get_characters(file_contents)}")
         print(f"--- Begin report of books/frankenstein.txt ---")
-        print(f"{get_words(file_contents)} words found in the document")
+        print(f"{get_num_words(file_contents)} words found in the document")
         
         list_of_dict = dict_to_sorted_list(get_characters(file_contents))
 
@@ -18,10 +20,6 @@ def main():
 
 def sort_on(item):
     return item["num"]
-
-def get_words(contents):
-    words = contents.split()
-    return len(words)
 
 def get_characters(contents):
     char_dict = {}
